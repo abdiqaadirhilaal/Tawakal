@@ -1,7 +1,11 @@
 import axios from 'axios';
 
+// Production-ka frontend-ka iyo API-gu isla origin ayay ku wada noqdaan,
+// marka default-ku waa waddo relative ah ("/api").
+const DEFAULT_URL = import.meta.env.PROD ? '/api' : 'http://localhost:5000/api';
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_API_URL || DEFAULT_URL,
   withCredentials: true, // cookie-ga HttpOnly ee maamulka
   timeout: 20000,
   headers: { 'X-Requested-With': 'XMLHttpRequest' },

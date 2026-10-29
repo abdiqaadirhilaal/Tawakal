@@ -290,6 +290,10 @@ Liiska buuxa ee waddooyinka: [`docs/API.md`](docs/API.md).
 
 ## 14. U diyaarinta internet-ka (deployment)
 
+> **Hagaha buuxa (tallaabo-tallaabo, bilaash):** eeg [`DEPLOY.md`](DEPLOY.md) — MongoDB Atlas + Render.
+> Production-ka frontend-ka iyo API-gu waxay ku wada noqdaan hal domain (Render), sidaas darteed
+> cookie-ga fadhiga wuu shaqeeyaa. Faylka `render.yaml` ayaa deployment-ka si otomaatig ah u habeeya.
+
 1. **Database:** isticmaal MongoDB la maareeyo (tusaale MongoDB Atlas) ama server si fiican loo ilaaliyey: isticmaale leh fure adag, IP allowlist, TLS. Geli connection string-ka `MONGO_URI`. Weligaa ha u furin port 27017 internet-ka.
 2. **Backend `.env`:** `NODE_ENV=production`, `JWT_SECRET` cusub oo dheer, `CLIENT_URL=https://domain-kaaga`. Server-ku wuu diidayaa in uu bilaabmo haddii `JWT_SECRET` uu yahay kan tusaalaha ah.
 3. **HTTPS waa qasab:** cookie-ga `Secure` wuxuu shaqeeyaa kaliya HTTPS.

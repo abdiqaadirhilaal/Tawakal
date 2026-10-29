@@ -17,6 +17,19 @@ if (!isProd && !isTest && JWT_SECRET === PLACEHOLDER) {
   console.warn('[digniin] JWT_SECRET weli waa qiimaha tusaalaha ah. Beddel ka hor inta aadan internet-ka gelin.');
 }
 
+// Cinwaannada frontend-ka ee la oggol yahay (CORS). Marka production, frontend-ka
+// iyo API-gu isla domain ayay ku wada noqdaan, laakiin browser-ku wali wuxuu dirayaa
+// Origin header, marka domain-ka adeegga waa in uu liiska ku jiraa.
+const CLIENT_URLS = (process.env.CLIENT_URL || 'http://localhost:5173')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+// Render wuxuu si otomaatig ah u bixiyaa RENDER_EXTERNAL_URL (URL-ka adeegga).
+if (process.env.RENDER_EXTERNAL_URL && !CLIENT_URLS.includes(process.env.RENDER_EXTERNAL_URL)) {
+  CLIENT_URLS.push(process.env.RENDER_EXTERNAL_URL);
+}
+
 module.exports = {
   NODE_ENV,
   isProd,
@@ -25,10 +38,7 @@ module.exports = {
   MONGO_URI: process.env.MONGO_URI || 'mongodb://localhost:27017/tawakal_db',
   JWT_SECRET,
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '8h',
-  CLIENT_URLS: (process.env.CLIENT_URL || 'http://localhost:5173')
-    .split(',')
-    .map((s) => s.trim())
-    .filter(Boolean),
+  CLIENT_URLS,
   REPORT_TIMEZONE: process.env.REPORT_TIMEZONE || 'Africa/Mogadishu',
   COOKIE_NAME: 'tawakal_token',
 };

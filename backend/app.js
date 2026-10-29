@@ -54,6 +54,18 @@ app.use('/api/admin', require('./routes/admin'));
 app.use('/api/pos', require('./routes/pos'));
 app.use('/api', require('./routes/public'));
 
+// Production: frontend-ka la dhisay (frontend/dist) waxaa laga adeegaa isla
+// domain-kan API-ga, si cookie-ga fadhiga (SameSite=Lax) uu u shaqeeyo.
+// Development-ka Vite ayaa frontend-ka adeegta (http://localhost:5173).
+if (env.isProd) {
+  const clientDist = path.join(__dirname, '..', 'frontend', 'dist');
+  app.use(express.static(clientDist, { index: false, maxAge: '1h', dotfiles: 'ignore' }));
+  // SPA fallback: waddo kasta oo aan ahayn /api ama /uploads waxay celisaa index.html.
+  app.get(/^\/(?!api(\/|$)|uploads(\/|$)).*/, (req, res) => {
+    res.sendFile(path.join(clientDist, 'index.html'));
+  });
+}
+
 app.use(notFound);
 app.use(errorHandler);
 

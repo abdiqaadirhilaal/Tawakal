@@ -1,0 +1,29 @@
+# Render Blueprint — https://render.com
+# Hal adeeg (web service) oo isku mar adeegta API-ga iyo frontend-ka la dhisay.
+# Samee: Render Dashboard → New → Blueprint → dooro repo-gan → Apply.
+services:
+  - type: web
+    name: tawakal
+    runtime: node
+    plan: free
+    region: frankfurt
+    branch: main
+    autoDeploy: true
+    buildCommand: npm ci --prefix backend && npm ci --prefix frontend && npm run build --prefix frontend
+    startCommand: node backend/server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "20"
+      # Sir random ah oo Render si otomaatig ah u abuurto.
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 8h
+      # MongoDB Atlas connection string — Render ayaa ku weydiin doona marka la deploy-gareynayo.
+      - key: MONGO_URI
+        sync: false
+      - key: REPORT_TIMEZONE
+        value: Africa/Mogadishu
