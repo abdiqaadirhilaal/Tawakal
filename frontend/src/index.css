@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-mist text-navy antialiased; }
+  h1, h2, h3 { @apply font-display tracking-tight; text-wrap: balance; }
+  :focus-visible { @apply outline-none ring-2 ring-gold ring-offset-2 ring-offset-white; }
+  ::selection { background: #D4AF37; color: #0B1F3A; }
+}
+
+@layer components {
+  .container-page { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .card { @apply rounded-xl border border-slate-200/80 bg-white shadow-card; }
+  .label { @apply mb-1.5 block text-sm font-semibold text-navy; }
+  .input {
+    @apply block w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-navy placeholder:text-slate-400
+      focus:border-royal focus:ring-2 focus:ring-royal/20 focus:outline-none disabled:bg-slate-100 disabled:text-slate-500;
+  }
+  .input[readonly] { @apply bg-slate-100 text-slate-500; }
+  .input-error { @apply border-red-500 focus:border-red-500 focus:ring-red-200; }
+  .eyebrow { @apply text-xs font-bold uppercase tracking-[0.18em] text-gold-700; }
+  .th { @apply whitespace-nowrap px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-slate-500; }
+  .td { @apply px-4 py-3 text-sm text-navy align-middle; }
+  .num { font-variant-numeric: tabular-nums; }
+}
+
+.skeleton { position: relative; overflow: hidden; background: #E3E8F0; border-radius: .5rem; }
+.skeleton::after {
+  content: ''; position: absolute; inset: 0; transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+  animation: shimmer 1.4s infinite;
+}
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; }
+  .card { box-shadow: none; border-color: #cbd5e1; }
+}
+
+/* ---------- Rasiidka POS ---------- */
+.only-print { display: none; }
+.receipt { font-family: 'Segoe UI', Arial, sans-serif; color: #0B1F3A; font-size: 12px; line-height: 1.45; }
+.receipt .rc-center { text-align: center; }
+.receipt .rc-rule { border-top: 1px dashed #64748B; margin: 8px 0; }
+.receipt .rc-row { display: flex; justify-content: space-between; gap: 12px; }
+.receipt .rc-total { font-size: 15px; font-weight: 800; }
+.receipt table { width: 100%; border-collapse: collapse; }
+.receipt td { padding: 2px 0; vertical-align: top; }
+.receipt .rc-num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+@media print {
+  .only-print { display: block; }
+  /* Marka rasiid la daabacayo, wax kasta oo kale (dashboard, menu, modal) waa la qariyaa. */
+  body:has(.receipt-print) #root { display: none !important; }
+  body:has(.receipt-print) { background: #fff; }
+  /* 76mm: wuxuu ku habboon yahay printer-ka rasiidhada (80mm); A4-na dhexda ayuu ka soo baxayaa. */
+  .receipt-print { width: 76mm; max-width: 100%; margin: 0 auto; padding: 0; color: #000; }
+  .receipt-print .receipt { color: #000; font-size: 11px; }
+}

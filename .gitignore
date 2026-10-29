@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.env
+.env.local
+*.log
+coverage/
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+# Sawirrada la soo dejiyey (kaydi nuqul gaar ah, Git ha gelin)
+backend/uploads/*
+!backend/uploads/.gitkeep
